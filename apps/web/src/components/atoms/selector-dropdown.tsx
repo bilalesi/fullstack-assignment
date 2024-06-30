@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react";
 
-type Item = {
+export type Item = {
     id: string;
     value: string;
     label: string;
