@@ -7,6 +7,7 @@ import { z } from "zod";
 import OfficeSelector from '@/components/molecules/office-selector'
 import YearSelector from '@/components/molecules/year-selector'
 import Button from '@/components/atoms/button';
+import Error from '@/components/atoms/error';
 
 const ReportFilterSchema = z.object({
     office: z.number({ message: "Please select an office from the list." }).transform(val => String(val)),
@@ -62,9 +63,14 @@ export default function ReportFilter() {
             onSubmit={onSubmit}
             onReset={onReset}
         >
-            <OfficeSelector />
-            <YearSelector />
-
+            <div className='flex flex-col min-w-56 w-full relative'>
+                <OfficeSelector />
+                {errors?.office?.map((er, indx) => <Error key={`${er}-${indx}`} error={er} />)}
+            </div>
+            <div className='flex flex-col min-w-56 w-full relative'>
+                <YearSelector />
+                {errors?.year?.map((er, indx) => <Error key={`${er}-${indx}`} error={er} />)}
+            </div>
             <Button title='Go' type='submit' disabled={isPending} loading={isPending} className={isPending ? 'pointer-events-none !bg-gray-200 !text-red-500' : ''} />
             <Button title='Reset' type='reset' className='!bg-gray-300 !text-gray-600' />
         </form>
