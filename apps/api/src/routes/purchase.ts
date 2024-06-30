@@ -19,9 +19,10 @@ async function getFruitCalories(fruit: Fruit): Promise<FruitWithCalories> {
     try {
         const response = await fetch(`${FRUITYVICE_API}/${fruit.fruityvice_id}`);
         const data = await response.json();
+        console.log('data', data)
         return {
             ...fruit,
-            calories: data?.nutrients?.calories || 0 // 0 calories if not found
+            calories: data?.nutritions?.calories || 0 // 0 calories if not found
         };
     } catch (error) {
         return {
@@ -80,10 +81,11 @@ const purchaseRoute = new Hono<AppContext>()
                     const fruitsResult = await db.query<Fruit>(SELECT_FRUIT_QUERY, [id]);
                     const row = fruitsResult.rows[0];
                     const fruitWithCalories = await getFruitCalories(row);
-                    totalCalories += fruitWithCalories.calories;
+                    totalCalories += fruitWithCalories.calories * quantity;
+
                     // fail early instead of request all the calories concurrently using `promise.allSettled`
                     if (totalCalories > CALORIES_LIMIT) {
-                        throw new HTTPException(404, {
+                        throw new HTTPException(400, {
                             message: `Total calories exceed the ${CALORIES_LIMIT}kcal limit`
                         });
                     }

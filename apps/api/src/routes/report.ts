@@ -47,7 +47,7 @@ const reportRoute = new Hono<AppContext>()
                     // TODO: after refactoring the use case
                     // TODO: should not handle http exception (Error) here
                     // TODO: raise a custom error as EntityNotFound
-                    throw new HTTPException(404, { message: "Office not found" });
+                    throw new HTTPException(400, { message: "Office not found" });
                 }
                 const officeRow = officeResult.rows[0];
                 const result = await db.query<{ fruit: string; consumption: number }>(SELECT_MOST_FRUIT_QUERY, [office, year])
@@ -97,7 +97,7 @@ const reportRoute = new Hono<AppContext>()
                     // TODO: after refactoring the use case
                     // TODO: should not handle http exception (Error) here
                     // TODO: raise a custom error as EntityNotFound
-                    throw new HTTPException(404, { message: "Office not found" });
+                    throw new HTTPException(400, { message: "Office not found" });
                 }
                 const officeRow = officeResult.rows[0];
 
