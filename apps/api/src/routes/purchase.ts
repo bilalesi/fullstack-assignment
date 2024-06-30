@@ -35,7 +35,7 @@ const CALORIES_LIMIT = 1000;
 const SELECT_FRUIT_QUERY = "SELECT * FROM public.fruit WHERE id = $1";
 const PURCHASE_MUTATION = "INSERT INTO public.ledger (fruit_id, location_id, amount, time) VALUES $1";
 
-export const purchaseController = new Hono<AppContext>()
+const purchaseRoute = new Hono<AppContext>()
     .post('/',
         validator(
             'form',
@@ -113,3 +113,5 @@ export const purchaseController = new Hono<AppContext>()
                 await db.end();
             }
         });
+        
+export default purchaseRoute;

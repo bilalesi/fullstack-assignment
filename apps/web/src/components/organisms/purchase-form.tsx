@@ -6,6 +6,7 @@ import FruitSelector from '@/components/molecules/fruit-selector';
 import Button from '@/components/atoms/button';
 import Error from '@/components/atoms/error';
 import { z } from 'zod';
+import purchase from '@/http/do-purchase';
 
 type Fruit = {
     id: string;
@@ -64,8 +65,38 @@ export default function PurchaseForm() {
 
     const onDeleteFruit = (fruitId: string) => setFruits(prev => prev.filter(elt => elt.id !== fruitId));
 
-    const onSubmit = async (formData: FormData) => { }
+    const onSubmit = async (formData: FormData) => {
+        setErrors({ office: undefined, fruits: undefined });
+        setPurchaseStatus(null);
 
+        const office = formData.get('office') ? Number(formData.get('office')) : null;
+        const fruits = formData.get('fruits') ? String(formData.get('fruits')) : null;
+        const { data, error } = await PurchaseFormSchema.safeParseAsync({ office, fruits });
+
+        if (error && !data) {
+            setErrors(error.flatten().fieldErrors);
+        } else {
+
+            startTransition(async () => {
+                const result = await purchase({
+                    office: data.office,
+                    fruits: data.fruits,
+                });
+                
+                if (result) {
+                    setErrors({ office: undefined, fruits: undefined });
+                    setFruits([]);
+                    setPurchaseStatus('success');
+                } else {
+                    setPurchaseStatus('failed');
+                }
+            });
+
+            setTimeout(() => {
+                setPurchaseStatus(null);
+            }, 2000);
+        }
+    }
     return (
         <form
             noValidate
