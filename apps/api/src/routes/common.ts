@@ -6,7 +6,7 @@ import AppContext from "@/context";
 
 const SELECT_OFFICES_QUERY = 'SELECT * FROM public.location';
 
-export const commonController = new Hono<AppContext>()
+const commonController = new Hono<AppContext>()
     .get('/offices', async (c) => {
         const db = c.get('db');
         try {
@@ -24,3 +24,5 @@ export const commonController = new Hono<AppContext>()
             await db.end();
         }
     });
+
+export default commonController;
