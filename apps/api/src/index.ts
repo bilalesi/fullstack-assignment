@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { initDb } from '@/infrastructure/db';
 import commonRoute from '@/routes/common';
 import reportRoute from '@/routes/report';
@@ -7,6 +8,7 @@ import AppContext from '@/context';
 const app = new Hono<AppContext>().basePath('/api');
 
 app
+  .use(cors({ origin: "*" }))
   .use((c, next) => {
     initDb(c);
     return next();
