@@ -1,9 +1,14 @@
-import { Hono } from 'hono'
+import { Hono } from 'hono';
 
-const app = new Hono()
+import { initDb } from '@/infrastructure/db';
+import AppContext from './context';
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const app = new Hono<AppContext>().basePath('/api');
+
+app
+  .use((c, next) => {
+    initDb(c);
+    return next();
+  });
 
 export default app
