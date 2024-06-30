@@ -33,7 +33,6 @@ async function getFruitCalories(fruit: Fruit): Promise<FruitWithCalories> {
 
 const CALORIES_LIMIT = 1000;
 const SELECT_FRUIT_QUERY = "SELECT * FROM public.fruit WHERE id = $1";
-const PURCHASE_MUTATION = "INSERT INTO public.ledger (fruit_id, location_id, amount, time) VALUES $1";
 
 const purchaseRoute = new Hono<AppContext>()
     .post('/',
@@ -96,7 +95,8 @@ const purchaseRoute = new Hono<AppContext>()
                 }
 
                 const values = fruitList.map(row => `(${row.id}, ${office}, ${row.quantity}, CURRENT_TIMESTAMP)`);
-                const result = await db.query<Ledger>(PURCHASE_MUTATION, [values.join(',')]);
+                const PURCHASE_MUTATION = `INSERT INTO public.ledger (fruit_id, location_id, amount, time) VALUES ${values.join(',')}`
+                const result = await db.query<Ledger>(PURCHASE_MUTATION);
 
                 return c.json({
                     message: "Purchase successful!",
@@ -113,5 +113,5 @@ const purchaseRoute = new Hono<AppContext>()
                 await db.end();
             }
         });
-        
+
 export default purchaseRoute;
