@@ -1,5 +1,5 @@
 {
-  "name": ".",
+  "name": "@lepaya/api",
   "scripts": {
     "dev": "bun run --hot src/index.ts"
   },
