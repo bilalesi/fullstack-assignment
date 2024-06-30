@@ -2,7 +2,7 @@
 
 I aimed to avoid over-engineering, as requested in the repo README, and focused on implementing only the necessary features.
 
-Total time spent ~~ 5h35
+Total time spent ~~ 6h
 
 Time spent on documentation and answering questions ~ 35min
 

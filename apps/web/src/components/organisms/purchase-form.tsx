@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import OfficeSelector from '@/components/molecules/office-selector';
 import FruitSelector from '@/components/molecules/fruit-selector';
 import Button from '@/components/atoms/button';
@@ -54,6 +54,7 @@ const PurchaseFormSchema = z.object({
 });
 
 export default function PurchaseForm() {
+    const ref = useRef<HTMLFormElement>(null);
     const [fruits, setFruits] = useState<Array<Fruit>>([]);
     const [errors, setErrors] = useState<{ office?: string[] | undefined; fruits?: string[] | undefined; }>();
     const [purchaseStatus, setPurchaseStatus] = useState<'success' | 'failed' | null>(null);
@@ -78,25 +79,31 @@ export default function PurchaseForm() {
         } else {
 
             startTransition(async () => {
-                const result = await purchase({
-                    office: data.office,
-                    fruits: data.fruits,
-                });
-                
-                if (result) {
+                try {
+                    const result = await purchase({
+                        office: data.office,
+                        fruits: data.fruits,
+                    });
+
+                    if (result) {
+                        setPurchaseStatus('success');
+                    } else {
+                        setPurchaseStatus('failed');
+                    }
+                } catch (error) {
+                    setPurchaseStatus('failed');
+                } finally {
                     setErrors({ office: undefined, fruits: undefined });
                     setFruits([]);
-                    setPurchaseStatus('success');
-                } else {
-                    setPurchaseStatus('failed');
+                    ref.current?.reset();
+                    setTimeout(() => {
+                        setPurchaseStatus(null);
+                    }, 2000);
                 }
             });
-
-            setTimeout(() => {
-                setPurchaseStatus(null);
-            }, 2000);
         }
     }
+    
     return (
         <form
             noValidate
@@ -104,6 +111,7 @@ export default function PurchaseForm() {
             name='form-purchase-fruit'
             className='flex flex-col w-full'
             action={onSubmit}
+            ref={ref}
         >
             <input
                 readOnly
