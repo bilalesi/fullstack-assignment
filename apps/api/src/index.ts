@@ -6,7 +6,7 @@ import reportRoute from '@/routes/report';
 import purchaseRoute from '@/routes/purchase';
 import AppContext from '@/context';
 
-const app = new Hono<AppContext>().basePath('/api');
+export const app = new Hono<AppContext>().basePath('/api');
 
 app
   .use(cors({ origin: "*" }))

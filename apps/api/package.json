@@ -1,7 +1,8 @@
 {
   "name": "@lepaya/api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "test": "bun test"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",
