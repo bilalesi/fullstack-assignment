@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
-
 import { initDb } from '@/infrastructure/db';
-import AppContext from './context';
 import commonRoute from '@/routes/common';
+import AppContext from '@/context';
+
 const app = new Hono<AppContext>().basePath('/api');
 
 app
@@ -11,6 +11,11 @@ app
     return next();
   });
 
-app.route('/common', commonRoute);
+  
+export const routes = app.route('/common', commonRoute)
 
-export default app
+export default {
+  port: 3001, // TODO: set it in env variable (put it here for the sake of the test)
+  fetch: app.fetch,
+}
+
