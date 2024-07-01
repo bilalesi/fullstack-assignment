@@ -107,6 +107,7 @@ const purchaseRoute = new Hono<AppContext>()
                     }
                 }, 200);
             } catch (error) {
+                if(error instanceof HTTPException) throw error;
                 throw new HTTPException(500, {
                     message: "Internal server error", cause: error
                 });
