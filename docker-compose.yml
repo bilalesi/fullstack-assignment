@@ -9,6 +9,6 @@ services:
       POSTGRES_USER: candidate
       POSTGRES_PASSWORD: candidate
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init_fix.sql:/docker-entrypoint-initdb.d/init_fix.sql
     ports:
       - "5432:5432"
