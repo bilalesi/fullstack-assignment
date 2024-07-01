@@ -13,19 +13,21 @@ I will list what I should add more to the test if more time was spent, the list 
 1. **Testing** : Add more end-to-end (e2e) tests for both applications.
 
    1. The app has two tests for (fruits listing and offices listing) just to mimic what sould real applications must have.
-2. **Backend Restructuring**:
+2. **SQL refinement:** db do not have any best practices, no primary keys, no relationship, so in real world senario this must be handled (I create a new sql file (`init_fix.sql`) to fix that since it's not required in the test), also adding some indexes will be powerfull (this is added extra 5 min).
+3. **Backend Restructuring**:
 
    1. Refactor controllers to separate business logic (e.g., use repository pattern, use-cases, services).
    2. Split queries and mutations (commands).
    3. Create custom exceptions (errors).
    4. Add logging for better debugging.
-3. **Data Validation** : Imporve data validation on both the client and server sides.
+4. **Data Validation** : Imporve data validation on both the client and server sides.
 
    1. In the frontend, data validation run on submit (it just my preference), another idea is to have onBlur validation (when user leave an input)
-4. **UI Component Management** : (to be shared with different web apps if any, and also to create a reusable design system package)
-5. **Shared Types Package** : Add a package for shared types to avoid re-declaration in both front-end and back-end.
-6. **UI Library**: Integrate a UI library for more flexibility and pre-built components.
-7. Handling Error better in the frontend.
+5. **UI Component Management** : (to be shared with different web apps if any, and also to create a reusable design system package)
+6. **Shared Types Package** : Add a package for shared types to avoid re-declaration in both front-end and back-end.
+7. **UI Library**: Integrate a UI library for more flexibility and pre-built components.
+8. Handling Error better in the frontend.
+9. Add dockerize fullstack application (grouping db, frontend, backend).
 
 # Describe your solution in plain english. Point out your design decisions and the reasoning behind them.
 
