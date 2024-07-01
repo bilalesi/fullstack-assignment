@@ -19,7 +19,6 @@ async function getFruitCalories(fruit: Fruit): Promise<FruitWithCalories> {
     try {
         const response = await fetch(`${FRUITYVICE_API}/${fruit.fruityvice_id}`);
         const data = await response.json();
-        console.log('data', data)
         return {
             ...fruit,
             calories: data?.nutritions?.calories || 0 // 0 calories if not found
